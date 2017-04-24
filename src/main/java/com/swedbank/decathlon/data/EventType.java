@@ -162,21 +162,23 @@ public enum EventType {
      * @return
      */
     public int countPoints(final float athleteScore) {
-        int points;
-        switch (this.unit) {
-            case METERS:
-            case CENTIMETERS:
-                //Points = INT(A(P — B)C) for field events (greater distance or height produces a better score)
-                points = (int) Math.floor(A * Math.pow(athleteScore - B, C));
-                break;
-            case SECONDS:
-            case MINUTES:
-                //Points = INT(A(B — P)C) for track events (faster time produces a better score)
-                points = (int) Math.floor(A * Math.pow(B - athleteScore, C));
-                break;
-            default:
-                points = 0;
-                break;
+        int points = 0;
+        if (athleteScore > 0) {
+            switch (this.unit) {
+                case METERS:
+                case CENTIMETERS:
+                    //Points = INT(A(P — B)C) for field events (greater distance or height produces a better score)
+                    points = (int) Math.floor(A * Math.pow(athleteScore - B, C));
+                    break;
+                case SECONDS:
+                case MINUTES:
+                    //Points = INT(A(B — P)C) for track events (faster time produces a better score)
+                    points = (int) Math.floor(A * Math.pow(B - athleteScore, C));
+                    break;
+                default:
+                    points = 0;
+                    break;
+            }
         }
         return points;
     }

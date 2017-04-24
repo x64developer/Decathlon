@@ -90,7 +90,13 @@ public class CSVParser extends BaseParser {
             String athletePerformance = athleteData[counter];
             //Build result from data line
             Result.ResultBuilder rb = new Result.ResultBuilder(e, athletePerformance);
-            float ap = e.getUnit().getValueFromString(athletePerformance);
+            float ap = 0f;
+            try {
+                ap = e.getUnit().getValueFromString(athletePerformance);
+            } catch (NumberFormatException nex) {
+                parsingErrors.add(String.format("Line %d: problems with parsing athlete performance %s. Please check data and make it valid.",
+                        lineCount, athletePerformance));
+            }
             rb.setPoints(e.countPoints(ap));
             results.add(rb.build());
             counter++;
